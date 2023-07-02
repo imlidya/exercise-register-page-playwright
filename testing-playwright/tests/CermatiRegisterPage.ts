@@ -1,4 +1,5 @@
 import {expect, Page } from "@playwright/test";
+import 'dotenv/config';
 
 const classConstant = {
     frmEmail : "xpath=//input[@id='email' and @placeholder='Masukkan Email']",
@@ -23,13 +24,13 @@ export class CermatiRegisterPage {
     //function
     async fillRegisterPage() {
         await this.page.waitForLoadState()
-        await this.page.locator(classConstant.frmEmail).fill('testing@yopmail.com');
-        await this.page.locator(classConstant.frmNomorHandphone).fill('081337348585');
-        await this.page.locator(classConstant.frmKataSandi).fill('2838293931Gg');
-        await this.page.locator(classConstant.frmUlangiKataSandi).fill('2838293931Gg');
-        await this.page.locator(classConstant.frmNamaDepan).fill('Lidya');
-        await this.page.locator(classConstant.frmNamaBelakang).fill('Testing');
-        this.chooseKotaKabupaten();
+        await this.page.locator(classConstant.frmEmail).fill(process.env.email);
+        await this.page.locator(classConstant.frmNomorHandphone).fill(process.env.nomorHandphone);
+        await this.page.locator(classConstant.frmKataSandi).fill(process.env.password);
+        await this.page.locator(classConstant.frmUlangiKataSandi).fill(process.env.password);
+        await this.page.locator(classConstant.frmNamaDepan).fill(process.env.namaDepan);
+        await this.page.locator(classConstant.frmNamaBelakang).fill(process.env.namaBelakang);
+        await this.chooseKotaKabupaten();
         console.log('fill register page')
     }
 
@@ -37,14 +38,8 @@ export class CermatiRegisterPage {
         await this.page.waitForLoadState();
         await this.page.locator(classConstant.ddlKotaKabupaten).click();
         await this.page.locator(classConstant.ddlKotaKabupaten).fill('Makassar');
-        await this.page.locator(classConstant.lblKotaMakassar).click();
+        await this.page.keyboard.press('Enter');
         console.log('select kabupaten/kota');
-    }
-
-    async clickCheckBoxTnC() {
-        await this.page.waitForLoadState();
-        await this.page.locator(classConstant.checkboxTnC).click();
-        console.log('click checkbox TnC');
     }
 
     async clickRegisterButton() {
